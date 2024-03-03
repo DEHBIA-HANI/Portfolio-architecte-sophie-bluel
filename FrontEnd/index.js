@@ -13,20 +13,20 @@ async function fetchworks() {
     .catch((error) =>
       console.error("Erreur lors de la récupération des images:", error)
     );
-  galleryWorks();
+  galleryDisplay();
 }
+fetchworks();
 
-function galleryWorks() {
+// Affichage les données des travaux
+function galleryDisplay() {
   gallery.innerHTML = worksData
-    .map(
-      (work) =>
-        `
-    <figure>
-    <img src=${work.imageUrl} alt="Photo ${work.title}>
-    <figcaption>${work.title}</figcaption>
-    </figure>
-    `
-    )
+    .map((work) => {
+      return `
+      <figure>
+      <img src=${work.imageUrl} alt="Photo ${work.title}">
+      <figcaption> ${work.title}</figcaption>
+      </figure>
+      `;
+    })
     .join("");
 }
-window.addEventListener("load", fetchworks);

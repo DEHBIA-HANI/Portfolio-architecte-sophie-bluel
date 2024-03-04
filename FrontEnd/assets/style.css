@@ -204,6 +204,30 @@ li:hover {
   text-align: center;
   margin-bottom: 1em;
 }
+.filtrer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.btnsort {
+  color: #28796a;
+  background: white;
+  padding: 5px 10px;
+  border: 1.5px solid #28796a;
+  border-radius: 50px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+#btn-tous {
+  background: #1d6154;
+  color: white;
+}
+#btn-tous,
+#btn-objets {
+  padding-left: 20px;
+  padding-right: 20px;
+}
 
 .gallery {
   width: 100%;

@@ -133,6 +133,7 @@ body {
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  background: #fffef8;
 }
 header {
   display: flex;
@@ -173,10 +174,13 @@ nav li {
   padding: 0 10px;
   font-size: 1.2em;
 }
-
-li:hover {
+nav li a {
+  text-decoration: none;
+}
+nav li a:hover {
   color: #b1663c;
 }
+
 #introduction {
   display: flex;
   align-items: center;
@@ -219,10 +223,11 @@ li:hover {
   font-weight: 600;
   margin-left: 10px;
 }
-#btn-tous {
+.btnsort:hover {
   background: #1d6154;
   color: white;
 }
+
 #btn-tous,
 #btn-objets {
   padding-left: 20px;
@@ -287,4 +292,14 @@ footer nav ul {
   display: flex;
   justify-content: flex-end;
   margin: 2em;
+}
+
+#contact p,
+a {
+  text-align: center;
+  color: black;
+}
+footer {
+  background-color: white;
+  margin-top: 20px;
 }

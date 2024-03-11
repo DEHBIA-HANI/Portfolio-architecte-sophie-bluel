@@ -1,6 +1,5 @@
 const gallery = document.querySelector(".gallery");
 const filter = document.querySelector(".filtrer");
-
 let worksData = []; // Stockez les données de travaux dans la variable globale
 let filtreMethod = "btn-Tous";
 

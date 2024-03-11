@@ -128,20 +128,35 @@ table {
   border-spacing: 0;
 }
 /** end reset css**/
+
 body {
-  max-width: 1140px;
+  max-width: 1440px;
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
   background: #fffef8;
 }
-header {
+/*creation de la navbar de l'edition */
+.edition {
+  background: black;
+  color: white;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 15px 0;
+  /* margin-bottom: 50px; */
+  visibility: hidden;
+}
+.edition i {
+  padding: 5px;
+}
+
+.header-nav {
   display: flex;
   justify-content: space-between;
-  margin: 50px 0;
+  margin: 0 20px;
 }
 section {
-  margin: 50px 0;
+  margin: 50px;
 }
 
 h1 {
@@ -173,6 +188,9 @@ nav ul {
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
+}
+li:hover {
+  color: #b1663c;
 }
 nav li a {
   text-decoration: none;
@@ -206,7 +224,52 @@ nav li a:hover {
 }
 #portfolio h2 {
   text-align: center;
+}
+/* le contenair de la modal*/
+.modale-container {
+  height: 630px;
+  width: 44%;
+  margin: 0 auto;
+  z-index: 1000;
+  background: white;
+  color: black;
+  border-radius: 10px;
+  position: relative;
+}
+
+.modale-container h3 {
+  font-size: 1.2rem;
+  color: rgb(55, 54, 54);
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 0.1em;
+}
+.modale-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modale-button button {
+  display: block;
+  position: absolute;
+  bottom: 10px;
+  border: none;
+  padding: 10px;
+}
+.projet-modifier {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1em;
+  gap: 30px;
+}
+.projet-modifier p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  visibility: hidden;
+}
+.projet-modifier i {
+  padding-right: 10px;
 }
 .filtrer {
   display: flex;
@@ -247,6 +310,7 @@ nav li a:hover {
 }
 
 #contact {
+  max-width: 1140px;
   width: 50%;
   margin: auto;
 }
@@ -277,7 +341,8 @@ nav li a:hover {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+input[type="submit"],
+.modale-button button {
   font-family: "Syne";
   font-weight: 700;
   color: white;
@@ -287,19 +352,34 @@ input[type="submit"] {
   text-align: center;
   border-radius: 60px;
 }
+#contact p,
+a {
+  text-align: center;
+  color: black;
+}
+#formLogin span {
+  color: red;
+  padding-top: 6px;
+  visibility: hidden;
+}
 
+.error input {
+  color: red;
+  border: 1px solid rgb(255, 0, 0, 0.527);
+}
+.error span {
+  visibility: visible;
+  opacity: 1;
+  color: red;
+}
 footer nav ul {
   display: flex;
   justify-content: flex-end;
   margin: 2em;
 }
 
-#contact p,
-a {
-  text-align: center;
-  color: black;
-}
 footer {
   background-color: white;
-  margin-top: 20px;
+  padding: 3px 0;
+  margin-top: 135px;
 }

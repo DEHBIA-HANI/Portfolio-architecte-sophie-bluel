@@ -136,25 +136,40 @@ body {
   font-size: 14px;
   background: #fffef8;
 }
-/*creation de la navbar de l'edition */
+/*creation de la navbar de l'edition et affichage du icone et du mot modifier */
+/*-------------------------*/
 .edition {
   background: black;
   color: white;
   font-size: 0.8rem;
   text-align: center;
   padding: 15px 0;
-  /* margin-bottom: 50px; */
-  visibility: hidden;
+  margin-bottom: 50px;
 }
 .edition i {
   padding: 5px;
 }
-
+.projetModifier {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+  gap: 30px;
+}
+.projetModifier p {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.projetModifier i {
+  padding-right: 10px;
+}
+/*fin  ---------------------------*/
 .header-nav {
   display: flex;
   justify-content: space-between;
-  margin: 0 20px;
+  margin: 50px 20px;
 }
+
 section {
   margin: 50px;
 }
@@ -225,16 +240,34 @@ nav li a:hover {
 #portfolio h2 {
   text-align: center;
 }
-/* le contenair de la modal*/
-.modale-container {
-  height: 630px;
-  width: 44%;
-  margin: 0 auto;
-  z-index: 1000;
+/* style sur la modale qui gère les projets---------------*/
+#modale {
+  position: fixed;
+  z-index: 99;
+  left: 0;
+  top: 0;
+  width: 80%;
+  height: 80%;
+  margin: auto;
   background: white;
-  color: black;
-  border-radius: 10px;
-  position: relative;
+  border-radius: 5px;
+  border: 1px solid #1d6154;
+}
+.modale-container {
+  margin: 5% auto 10% auto;
+  border: 1px solid rgb(223, 9, 9);
+  width: 85%;
+}
+.modale-container span {
+  position: absolute;
+  top: 10px;
+  right: 13px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.modale-container span:hover {
+  color: #b1663c;
+  cursor: pointer;
 }
 
 .modale-container h3 {
@@ -242,6 +275,7 @@ nav li a:hover {
   color: rgb(55, 54, 54);
   text-align: center;
   margin-bottom: 30px;
+  margin-top: 20px;
   letter-spacing: 0.1em;
 }
 .modale-button {
@@ -256,28 +290,16 @@ nav li a:hover {
   border: none;
   padding: 10px;
 }
-.projet-modifier {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1em;
-  gap: 30px;
-}
-.projet-modifier p {
-  font-size: 0.9rem;
-  font-weight: 600;
-  visibility: hidden;
-}
-.projet-modifier i {
-  padding-right: 10px;
-}
-.filtrer {
+/*fin modale---------------*/
+
+/* style des boutons du tri par catégorie dans la galerie--------*/
+.filter {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
-.btnsort {
+.btnFilter {
   color: #28796a;
   background: white;
   padding: 5px 10px;
@@ -286,7 +308,7 @@ nav li a:hover {
   font-weight: 600;
   margin-left: 10px;
 }
-.btnsort:hover {
+.btnFilter:hover {
   background: #1d6154;
   color: white;
 }
@@ -296,6 +318,7 @@ nav li a:hover {
   padding-left: 20px;
   padding-right: 20px;
 }
+/* FIN bouton de tri ----------------------------*/
 
 .gallery {
   width: 100%;
@@ -344,34 +367,34 @@ nav li a:hover {
 input[type="submit"],
 .modale-button button {
   font-family: "Syne";
-  font-weight: 700;
   color: white;
   background-color: #1d6154;
   margin: 2em auto;
   width: 180px;
   text-align: center;
   border-radius: 60px;
+  cursor: pointer;
+  position: relative;
 }
+
 #contact p,
 a {
   text-align: center;
   color: black;
 }
+
+/*Partie erreur du formulaire de connection (login) */
+/*----------------*/
 #formLogin span {
   color: red;
   padding-top: 6px;
-  visibility: hidden;
 }
 
 .error input {
   color: red;
   border: 1px solid rgb(255, 0, 0, 0.527);
 }
-.error span {
-  visibility: visible;
-  opacity: 1;
-  color: red;
-}
+/*-------------*/
 footer nav ul {
   display: flex;
   justify-content: flex-end;

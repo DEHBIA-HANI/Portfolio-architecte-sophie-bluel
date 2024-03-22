@@ -20,6 +20,9 @@
 
 <body>
 	<header>
+		<div class="modeEdition">
+
+		</div>
 
 		<div class="header-nav">
 			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -79,18 +82,68 @@
 
 			</form>
 		</section>
-		<section id="modale">
-			<div class="modale-container">
-				<span class="close">&times;</span>
-				<h3>Galerie photo</h3>
-				<div class="gallery-delete"></div>
-				<i class="fa-solid fa-trash-can"></i>
-				<div class="modale-button">
-					<button>Ajouter une photo</button>
+		<!-- /*******************modale*************/ -->
+		<!-- /* Ajout Modale*/ -->
+		<aside id="modale1" class="modale" role="dialog">
+			<div class="modale-container-global">
+				<div class="icon">
+					<a href="#" id="fermer"><i class="fa-solid fa-xmark"></i></a>
+				</div>
+				<div class="modal-container supprimer">
+					<h3 id="titreModale">Galerie photo</h3>
+					<div class="supprime-photo">
+					</div>
+				</div>
+				<div>
+					<button id="fermer" data-target="#modale2" class="modale-button">Ajouter une photo</button>
 				</div>
 			</div>
 
-		</section>
+		</aside>
+		<!-- 
+		<aside id=" modale2" class="modale" aria-hidden="true" role="dialog" aria-labelledby="titreModale"
+			style="display: none;">
+			<div class="modale-container-global">
+
+				<div class="iconModal2">
+					<a href="#" id="retourEnArriere"><i class="fa-solid fa-arrow-left"></i></a>
+					<a href="#" id="fermer"><i class="fa-solid fa-xmark"></i></a>
+
+				</div>
+				<form action="#" method="post">
+					<div class="modal-container ajouter">
+						<h3 id="titreModale">Ajout photo</h3>
+
+						<div class="modale-nouvelle-photo">
+							<i class="fa-regular fa-image"></i>
+							<label for="avatar">+ Ajouter photo</label>
+
+							<input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" required>
+							<p class="photo-size">jpg,png:4mo max</p>
+						</div>
+						<div class="modale-nouvelle-categorie">
+							<label for="titre">Titre</label>
+							<input type="text" name="text" id="titre" required>
+							<div class="selectCategorie">
+								<label for="categorie">Catégorie</label>
+								<select name="categories" id="categorie" required>
+									<option value=""></option>
+								</select>
+
+								<i class="fa-solid fa-chevron-down"></i>
+
+							</div>
+						</div>
+					</div>
+					<div>
+						<button id="valider" class="modale-button ">Valider</button>
+					</div>
+
+
+				</form>
+			</div>
+
+		</aside> -->
 
 	</main>
 

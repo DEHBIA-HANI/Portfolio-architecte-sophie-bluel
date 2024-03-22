@@ -8,13 +8,41 @@ async function workFetch() {
     .catch((error) =>
       console.error("Erreur lors de la récupération des images", error)
     );
-
+  /*appeller la fonction pour afficher tous les travaux*/
   galerieWorks(workData, ".gallery");
-
+  /*appeller la fonction pour afficher tous les travaux par catégorie*/
   fecthCategories(workData);
+  galerieWorks(workData, ".supprime-photo");
 }
 workFetch();
 
+/*******************la fonction pour afficher les traveaux de Sophie Bluel******* */
+function galerieWorks(works, selector) {
+  const galerie = document.querySelector(selector);
+  galerie.innerhtml = "";
+
+  works.forEach((work) => {
+    const figure = document.createElement("figure");
+
+    const img = document.createElement("img");
+    const span = document.createElement("span");
+    const poubelle = document.createElement("i");
+    poubelle.classList.add("fa-solid", "fa-trash-can");
+    poubelle.id = work.id;
+    img.src = work.imageUrl;
+    img.alt = work.title;
+    span.appendChild(poubelle);
+    figure.appendChild(span);
+    figure.appendChild(img);
+
+    const figcation = document.createElement("figcation");
+    figcation.textContent = work.title;
+    figure.appendChild(figcation);
+    galerie.appendChild(figure);
+  });
+}
+
+/******************Affichage des boutons ********** */
 function fecthCategories(works) {
   fetch("http://localhost:5678/api/categories")
     .then((response) => response.json())
@@ -26,27 +54,7 @@ function fecthCategories(works) {
       console.error("Erreur lors de la récupérations des cagécories", error)
     );
 }
-/*******************Affichage des traveaux de Sophie Bluel******* */
-function galerieWorks(works, selector) {
-  const galerie = document.querySelector(selector);
-  galerie.innerhtml = "";
 
-  works.forEach((work) => {
-    const figure = document.createElement("figure");
-
-    const img = document.createElement("img");
-    img.src = work.imageUrl;
-    img.alt = work.title;
-    figure.appendChild(img);
-
-    const figcation = document.createElement("figcation");
-    figcation.textContent = work.title;
-    figure.appendChild(figcation);
-    galerie.appendChild(figure);
-  });
-}
-
-/******************Affichage des boutons ********** */
 function categorieFilter(categories, works) {
   const filtrer = document.querySelector(".filter");
   filtrer.innerhtml = "";
@@ -81,26 +89,26 @@ function categorieFilter(categories, works) {
  * Créer la bar edition ,l'icon et mot modifier
  */
 function barEdition() {
-  const header = document.querySelector("header");
-  console.log(header);
+  const modeEdition = document.querySelector(".modeEdition");
+  console.log(modeEdition);
   const projetModifier = document.querySelector(".projetModifier");
   console.log(projetModifier);
-  header.innerHTML = `
+  modeEdition.innerHTML = `
         <nav class="edition">
            <p><i class="fa-regular fa-pen-to-square"></i>Mode édition</p>
         </nav>
 `;
   projetModifier.innerHTML = `
         <h2>Mes Projets</h2>
-        <p><i class="fa-regular fa-pen-to-square"></i>modifier</p>
+        <a href="#" data-target="#modale1" data-toggle="modal"><i class="fa-regular fa-pen-to-square"></i>modifier</a>
 `;
 }
-// barEdition();
+barEdition();
 
 /****************************************************
- * Créer la motale de suppression*/
-function motaleSupp() {
-  const main = document.querySelector("main");
-  console.log(main);
-}
-motaleSupp();
+ * la motale de suppression*/
+window.onload = () => {
+  // On récupère les bouttons d'ouverture de  modale
+  const modaleButtons = document.querySelectorAll("[data-toggle=modale]");
+  console.log(modaleButtons);
+};

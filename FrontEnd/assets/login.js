@@ -12,19 +12,23 @@ document.addEventListener("DOMContentLoaded", function () {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        email: emailInput,
-        password: passwordInput,
+        emailInput,
+        passwordInput,
       }),
-    }).then((res) => {
-      if (res.ok) {
-        const data = res.json();
-        const token = data.token;
-        window.sessionStorage.setItem("token", token);
-        window.localStorage.href = "../index.html";
-      } else {
-        console.log("Authenfication inconnu !");
-      }
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          const data = res.json();
+          const token = data.token;
+          window.sessionStorage.setItem("token", token);
+          window.localStorage.href = "../index.html";
+        } else {
+          console.log("Authenfication inconnu !");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   });
 });
 

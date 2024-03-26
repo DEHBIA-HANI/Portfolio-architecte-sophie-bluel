@@ -162,15 +162,19 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
 }
 .projetModifier i {
   padding-right: 10px;
+}
+.projetModifier a:hover {
+  color: #b1663c;
 }
 /*suite nav navbar de shophie ---------------------------*/
 .header-nav {
   display: flex;
   justify-content: space-between;
-  margin: 50px 20px;
+  margin: 50px 0;
 }
 
 section {
@@ -360,11 +364,11 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  transition: 0.2s;
+  background: rgba(0, 0, 0, 0.65);
+  transition: 0.3s;
+  display: none;
 }
-.modale-container-global {
+#modale1 {
   background-color: #ffff;
   overflow: auto;
   max-width: calc(100vw - 20px);
@@ -373,11 +377,20 @@ footer {
   width: 600px;
   border-radius: 5px;
   text-align: center;
+  display: none;
 }
-.modale.show {
-  visibility: visible;
-  opacity: 1;
+#modale2 {
+  background-color: #ffff;
+  overflow: auto;
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - 20px);
+  padding: 20px;
+  width: 600px;
+  border-radius: 5px;
+  text-align: center;
+  display: none;
 }
+
 .supprime-photo {
   width: 100%;
   display: grid;
@@ -426,6 +439,9 @@ input[type="file"] {
 #fermer:hover {
   color: red;
 }
+#retourEnArriere:hover {
+  color: #1d6154;
+}
 .modale-container-global .icon {
   display: flex;
   justify-content: end;
@@ -446,7 +462,6 @@ input[type="file"] {
   font-family: "Syne";
   font-size: 1rem;
   color: white;
-  background-color: #1d6154;
   border-radius: 60px;
   cursor: pointer;
   margin-top: 40px;
@@ -455,7 +470,16 @@ input[type="file"] {
   margin-bottom: 33px;
   width: 50%;
 }
+#btn-ajout {
+  background-color: #1d6154;
+}
 /*style du modale2*/
+#btn-valider {
+  background-color: rgb(167, 167, 167);
+}
+#btn-valider:focus {
+  background-color: #1d6154;
+}
 .iconModal2 {
   display: flex;
   justify-content: space-between;
@@ -464,26 +488,44 @@ input[type="file"] {
 .modale-nouvelle-photo {
   background: rgb(232, 241, 246);
   border-radius: 3px;
-  padding: 20px;
+}
+.photo-file {
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.photo-file img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 100;
 }
 .fa-image {
   color: rgb(185, 197, 204);
-  font-size: 3.8rem;
+  font-size: 3.2rem;
+  padding-top: 15px;
 }
 label[for="avatar"] {
   color: rgb(48, 102, 133);
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   background: rgb(185, 197, 204);
-  padding: 10px 28px;
+  padding: 8px 20px;
   border-radius: 50px;
 }
 .photo-size {
   font-size: 0.7rem;
+  padding-bottom: 18px;
 }
 .modale-nouvelle-categorie,
 .selectCategorie {
@@ -502,11 +544,11 @@ select {
   appearance: none;
 }
 .modale-nouvelle-categorie label {
-  margin: 2em 0 1em 0;
+  margin: 20px 0 10px 0;
 }
 .selectCategorie {
   position: relative;
-  padding-bottom: 50px;
+  padding-bottom: 40px;
 }
 .selectCategorie i {
   position: absolute;

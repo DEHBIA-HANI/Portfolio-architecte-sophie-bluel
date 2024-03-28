@@ -2,7 +2,7 @@
 window.onload = () => {
   // On récupère les bouttons d'ouverture de modale
   const btnOuvertureModal = document.querySelectorAll("[data-toggle=modal]");
-  console.log(btnOuvertureModal);
+
   for (let button of btnOuvertureModal) {
     button.addEventListener("click", function (e) {
       //on empêche la navigation

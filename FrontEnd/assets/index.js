@@ -1,3 +1,7 @@
+/****************************************************** */
+//Chargement initial des données des travaux
+/****************************************************** */
+let workData = [];
 async function workFetch() {
   await fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
@@ -10,8 +14,10 @@ async function workFetch() {
     );
   /*appeller la fonction pour afficher tous les travaux*/
   galerieWorks(workData, ".gallery");
+
   /*appeller la fonction pour afficher tous les travaux par catégorie*/
   fecthCategories(workData);
+
   //appeller la fonction pour afficher tous les travaux dans notre modale Dellete
   galerieWorks(workData, ".supprime-photo");
   // Appeller la fonction de supression des travaux
@@ -19,7 +25,9 @@ async function workFetch() {
 }
 workFetch();
 
-/*******************la fonction pour afficher les traveaux de Sophie Bluel******* */
+/*****************************************************************
+//       la fonction pour afficher les traveaux de Sophie Bluel
+/*************************************************************** */
 function galerieWorks(works, selector) {
   const galerie = document.querySelector(selector);
   galerie.innerhtml = "";
@@ -44,8 +52,9 @@ function galerieWorks(works, selector) {
     galerie.appendChild(figure);
   });
 }
-
-/******************Affichage des boutons par filtre ********** */
+/***************************************************************
+ //           Affichage les boutons par filtre 
+/**************************************************************** */
 function fecthCategories(works) {
   fetch("http://localhost:5678/api/categories")
     .then((response) => response.json())
@@ -65,6 +74,7 @@ function categorieFilter(categories, works) {
 
   const tousButton = document.createElement("button");
   tousButton.textContent = "Tous";
+  tousButton.setAttribute("id", 0);
   tousButton.classList.add("btnFilter");
   filtrer.appendChild(tousButton);
   tousButton.onclick = () => {
@@ -76,21 +86,17 @@ function categorieFilter(categories, works) {
     button.id = categorie.id;
     button.classList.add("btnFilter");
     filtrer.appendChild(button);
-
     button.onclick = (e) => {
       btnFilter = e.target.id;
       console.log(btnFilter);
-      const FiltrerParCategorie = works.filter((work) => {
-        if (categorie === work.category)
-          return work.workData.categoryId === btnFilter;
-        galerieWorks(FiltrerParCategorie, ".gallery");
-      });
+      if (categorie.id === btnFilter) return works.categoryId;
     };
   });
 }
-/****************************************************
- * Créer la bar edition ,l'icon et mot modifier **/
 
+/*************************************************************
+ //      Créer la bar edition ,l'icon et mot modifier 
+/********************************************************* */
 function barEdition() {
   const modeEdition = document.querySelector(".modeEdition");
   const projetModifier = document.querySelector(".projetModifier");
@@ -106,22 +112,40 @@ function barEdition() {
           class="fa-regular fa-pen-to-square"></i>modifier</a>
   `;
 }
-barEdition();
+// On affiche la navbar édition si le token est correct
+document.addEventListener("DOMContentLoaded", function () {
+  if (sessionStorage.getItem("token") != null) {
+    barEdition();
+    const loginLogout = document.getElementById("logout");
+    const filtreLogout = document.getElementById("filter");
+    loginLogout.textContent = "logout";
+    filtreLogout.style.display = "none";
+    loginLogout.addEventListener("click", (event) => {
+      event.preventDefault();
+      sessionStorage.clear();
+      window.location.reload();
+    });
+  }
+});
 
 /****************************************************/
-//---------Suppression des travaux-------------
+//          Suppression des travaux
+/************************************************* */
+
 function Dellete() {
   const Poubelles = document.querySelectorAll(".supprime-photo .fa-trash-can");
   // console.log(Poubelles);
-  const imageSupp = document.querySelectorAll(".supprime-photo figure ");
-  console.log(imageSupp);
   Poubelles.forEach((poubelle) => {
     poubelle.addEventListener("click", () => {
       const id = poubelle.id;
       console.log(id);
+      let token = sessionStorage.getItem("token");
       const init = {
         method: "DELETE",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
       };
 
       fetch("http://localhost:5678/api/works/" + id, init)
@@ -142,44 +166,52 @@ function Dellete() {
   });
 }
 /************************************************************* */
-//-----Ajout des travaux : -----------/
+//  Ajout des travaux :
+//    INDEX: 1- Afficher l'image selectionnée de notre pc
+//           2- Créer la liste des catégories pour linput selecte
+//           4- Verification du formulaire
+//           5- Faire un POST
+/**************************************************************** */
 
-// 1-Afficher l'image selectionnée de notre pc
+//INDEX:1- Afficher l'image selectionnée de notre pc */
+document.addEventListener("DOMContentLoaded", function () {
+  //     *1-1-Récupérer tous les variables-
+  const inputFile = document.querySelector("#avatar");
+  const contenuPhoto = document.querySelector(".photo-file");
 
-//     *1-1-Récupérer tous les variables-
-const photoAjouter = document.querySelector(".photoAjouter");
-const inputFile = document.querySelector("#avatar");
-const contenuPhoto = document.querySelector(".photo-file");
-//     *1-2-Quand on clique sur notre la zone "+Ajout photo"
-photoAjouter.addEventListener("click", function () {
-  inputFile.click();
+  //     *1-2-Ecouter le changement sur inputFile
+  inputFile.addEventListener("change", function () {
+    //   *1-4-l'image qui se trouve sur mon pc
+    const image = this.files[0];
+    console.log(image);
+    if (image.size < 4 * 1024 * 1024) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imgUrl = reader.result;
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        contenuPhoto.appendChild(img);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      alert(
+        "Le fichier sélectionné est trop volumineux.La taille maximale est de 4 Mo."
+      );
+    }
+  });
 });
-//     *1-3-Ecouter le changement sur inputFile
-inputFile.addEventListener("change", function () {
-  //   *1-4-l'image qui se trouve sur mon pc
-  const image = this.files[0];
-  console.log(image);
-  const reader = new FileReader();
-  reader.onload = () => {
-    const imgUrl = reader.result;
-    const img = document.createElement("img");
-    img.src = imgUrl;
-    contenuPhoto.appendChild(img);
-    contenuPhoto.classList.add("active");
-  };
-  reader.readAsDataURL(image);
-});
-//3-Créer la liste des catégories pour linput selecte
 
+// INDEX: 2- Créer la liste des catégories pour linput selecte
 function selectCategorieModale2() {
   fetch("http://localhost:5678/api/categories")
     .then((response) => response.json())
     .then((data) => {
       const dataSelects = data;
-      const select = document.querySelector("#modale2 select[name=categories]");
+      const select = document.querySelector("#modale2 #categorie ");
+
       dataSelects.forEach((data) => {
         const option = document.createElement("option");
-        option.value = data.id;
+        option.setAttribute("value", data.id);
         option.textContent = data.name;
         select.appendChild(option);
       });
@@ -190,8 +222,56 @@ function selectCategorieModale2() {
 }
 selectCategorieModale2();
 
-//4-Faire un POST pour ajouter un travail(image)
+// INDEX: 4- Verification du formulaire
 const form = document.querySelector("#modale2 form");
 const title = document.querySelector("#modale2 #titre");
-const category = document.querySelector("#modale2 #categorie");
-console.log(category);
+const category = document.querySelector('#modale2 select[name="categoryId"]');
+const inputs = document.querySelectorAll("#modale2 input");
+console.log(inputs);
+
+function verifierForm() {
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const btnValider = document.getElementById("btn-valider");
+    if (
+      !title.validity.valid &&
+      !category.validity.valid &&
+      !inputFile.validity.valid
+    ) {
+      alert("Veuiller renseigner tous les champs");
+    }
+    // if (title.value != "" && category.value != "" && inputFile.value != "") {
+    else {
+      btnValider.classList.add("active");
+    }
+  });
+}
+verifierForm();
+// INDEX: 5- Faire un POST
+
+let token = sessionStorage.getItem("token");
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const formData = {
+    imageUrl: image.src,
+    title: title.value,
+    categoryId: category.value,
+    category: {
+      id: category.value,
+      name: option.value,
+    },
+  };
+  fetch("http://localhost:5678/api/works"),
+    {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData)
+
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error)),
+    };
+});

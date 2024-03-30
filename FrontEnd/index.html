@@ -31,7 +31,7 @@
         <ul>
           <li><a href="#portfolio">projets</a></li>
           <li><a href="#contact">contact</a></li>
-          <li> <a href="./login.html">login</a></li>
+          <li> <a href="./login.html" id="logout">login</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
         </ul>
       </nav>
@@ -59,7 +59,7 @@
         <h2>Mes Projets</h2>
 
       </div>
-      <div class="filter"></div>
+      <div id="filter" class="filter"></div>
 
       <div class="gallery"></div>
 
@@ -118,10 +118,10 @@
             <h3 id="titreModale">Ajout photo</h3>
 
             <div class="modale-nouvelle-photo">
-              <div class="photo-file" active>
+              <div class="photo-file">
                 <i class="fa-regular fa-image"></i>
                 <label for="avatar" class="photoAjouter">+ Ajouter photo</label>
-                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" required>
+                <input type="file" id="avatar" name="imageUrl" accept="image/png, image/jpeg" required>
                 <p class="photo-size">jpg,png:4mo max</p>
 
               </div>
@@ -129,10 +129,10 @@
             </div>
             <div class="modale-nouvelle-categorie">
               <label for="titre">Titre</label>
-              <input type="text" name="text" id="titre" required>
+              <input type="text" name="title" id="titre" required>
               <div class="selectCategorie">
                 <label for="categorie">Catégorie</label>
-                <select name="categories" id="categorie" required>
+                <select name="categoryId" id="categorie" required>
 
                 </select>
 

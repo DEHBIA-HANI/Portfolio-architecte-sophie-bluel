@@ -1,84 +1,66 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const loginForm = document.querySelector("form");
-  loginForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+const baseApiUrl = "http://localhost:5678/api/";
 
-    const emailInput = document.getElementById("email").value;
-    const passwordInput = document.getElementById("password").value;
+document.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let form = {
+    email: document.getElementById("email"),
+    password: document.getElementById("password"),
+  };
 
-    fetch("http://localhost:5678/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        emailInput,
-        passwordInput,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          const data = res.json();
-          const token = data.token;
-          window.sessionStorage.setItem("token", token);
-          window.localStorage.href = "../index.html";
-        } else {
-          console.log("Authenfication inconnu !");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
+  fetch(`${baseApiUrl}users/login`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: form.email.value,
+      password: form.password.value,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      alert("Email ou mot de passe erronés");
+    } else {
+      response.json().then((data) => {
+        sessionStorage.setItem("token", data.token); //STORE TOKEN
+        window.location.replace("index.html");
       });
+    }
   });
 });
+//////////////////////////////////////////////////////////////
+// document.addEventListener("DOMContentLoaded", () => {
+//   const loginForm = document.querySelector("form");
 
-/******************************************************************************************************************************** */
+//   loginForm.addEventListener("submit", (event) => {
+//     event.preventDefault();
 
-// Exécution js code lorsque la page est chargé
-// document.addEventListener("DOMContentLoaded", function () {
-//   document.getElementById("formLogin").addEventListener("submit", (e) => {
-//     e.preventDefault();
-//     //Collecte des données à partir du formulaire
-//     const user = {
-//       email: document.querySelector("#email").value,
-//       password: document.querySelector("#password").vlaue,
-//     };
-//     //Envoyer une requete afin de s'anthentifier
+//     // Récupération des valeurs des champs
+//     const email = loginForm.querySelector('input[type="email"]').value;
+//     const password = loginForm.querySelector('input[type="password"]').value;
+
+//     // Envoi des identifiants au serveur pour vérification
 //     fetch("http://localhost:5678/api/users/login", {
-//       methode: "POST",
-//       headers: { "Content-type": "application/json" },
-//       body: JSON.stringify(user),
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ email, password }),
 //     })
-//       .then((res) => {
-//         switch (res.status) {
-//           case 500:
-//           case 503:
-//             alert("Erreur côté serveur !");
-//             break;
-//           case 401:
-//           case 404:
-//             alert("Email ou mot de passe incorrect !");
-//             break;
-//           case 200:
-//             console.log("Authenfication réussie.");
-//             return response.json();
-//             break;
-//           default:
-//             alert("Erreur inconnue !");
-//             break;
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error("La connexion a échoué");
 //         }
+//         return response.json();
 //       })
 //       .then((data) => {
-//         console.log(data);
-//         localStorage.setItem("token", data.token);
-//         localStorage.setItem("userId", data.userId);
-//         /* Se rediger vers la page du site (index.html) */
-//         location.href = "./index.html";
+//         // Stockage du token et redirection
+//         sessionStorage.setItem("authToken", data.token);
+//         sessionStorage.setItem("editMode", "true"); // Stocker l'information du mode édition
+//         window.location.href = "../index.html";
 //       })
-//       .catch(function (err) {
-//         console.log(err);
+//       .catch((error) => {
+//         alert("Identifiant(s) incorrect(s) ou problème de connexion.");
 //       });
 //   });
 // });
-
-//

@@ -478,7 +478,8 @@ input[type="file"] {
 #btn-valider {
   background-color: rgb(167, 167, 167);
 }
-.valide {
+/*la classList qui sera injecter par js pour valider le formulaire*/
+.btnValid {
   background-color: #1d6154;
 }
 .iconModal2 {
@@ -511,6 +512,7 @@ input[type="file"] {
   object-position: center;
   z-index: 100;
 }
+
 .fa-image {
   color: rgb(185, 197, 204);
   font-size: 3.2rem;

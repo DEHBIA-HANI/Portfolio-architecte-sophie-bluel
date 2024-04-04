@@ -1,7 +1,7 @@
 /****************************************************** */
 //Chargement initial des données des travaux
 /****************************************************** */
-let workData = [];
+
 async function workFetch() {
   await fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
@@ -74,7 +74,6 @@ function categorieFilter(categories, works) {
 
   const tousButton = document.createElement("button");
   tousButton.textContent = "Tous";
-  // tousButton.setAttribute("id", 0);
   tousButton.classList.add("btnFilter");
   filtrer.appendChild(tousButton);
   tousButton.onclick = () => {
@@ -135,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function Dellete() {
   const Poubelles = document.querySelectorAll(".supprime-photo .fa-trash-can");
-  // console.log(Poubelles);
   Poubelles.forEach((poubelle) => {
     poubelle.addEventListener("click", () => {
       const id = poubelle.id;
@@ -157,6 +155,7 @@ function Dellete() {
           return response.json();
         })
         .then((data) => {
+          alert("Projet est supprimé avec succès");
           console.log(data);
           galerieWorks(workData, ".supprime-photo");
         })
@@ -166,6 +165,7 @@ function Dellete() {
     });
   });
 }
+
 /************************************************************* */
 //  Ajout des travaux :
 //    INDEX: 1- Afficher l'image selectionnée de notre pc
@@ -175,16 +175,23 @@ function Dellete() {
 /**************************************************************** */
 document.addEventListener("DOMContentLoaded", () => {
   //  INDEX:1- Afficher l'image selectionnée de notre pc */
-  //  Récupérer tous les éléments-*/
-  // const previewImage = document.querySelector(".photo-file img");
+  //  Récupérer tous les éléments qui :
+  //           seront utilisés dans l'affichage de l'image (input file)
+  const previewImage = document.querySelector(".photo-file img");
   const inputFile = document.getElementById("avatar");
   const labelFile = document.querySelector(".photoAjouter");
   const iconFile = document.querySelector(".fa-image");
   const pFile = document.querySelector(".photo-size");
   const contenuPhoto = document.querySelector(".photo-file");
+  //         seront utiliser pour le formulaire
+  const form = document.querySelector("#modale2 form");
+  const title = document.getElementById("titre");
+  const category = document.getElementById("categorie");
 
-  //  Ecouter le changement sur inputFile
-  inputFile.addEventListener("change", function () {
+  const btnValidForm = document.getElementById("btn-valider");
+
+  // Afficher l'image dans input file
+  function afficherImage() {
     //  l'image qui se trouve sur mon pc
     const image = this.files[0];
     if (image.size < 4 * 1024 * 1024) {
@@ -204,15 +211,17 @@ document.addEventListener("DOMContentLoaded", () => {
         "Le fichier sélectionné est trop volumineux.La taille maximale est de 4 Mo."
       );
     }
-  });
+  }
+
+  inputFile.addEventListener("change", afficherImage); //  Ecouter le changement sur inputFile
 
   // // INDEX: 2- Créer la liste des catégories pour linput selecte
-  function selectCategorieModale2() {
+  function chargerCategories() {
     fetch("http://localhost:5678/api/categories")
       .then((response) => response.json())
       .then((data) => {
         const select = document.querySelector("#modale2 #categorie ");
-        select.innerHTML = "";
+        select.innerHTML = ""; //mentor mettre ou pas?
         data.forEach((dataItem) => {
           const option = document.createElement("option");
           option.setAttribute("value", dataItem.id);
@@ -224,34 +233,29 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Erreur lors de la récupérations des catégories", error)
       );
   }
-  selectCategorieModale2();
+  chargerCategories();
 
   // // INDEX: 4- Verification du formulaire
-  // Récupération des valeurs des champs
-  const form = document.querySelector("#modale2 form");
-  const title = document.getElementById("titre");
-  const category = document.getElementById("categorie");
-
-  const btnValidForm = document.getElementById("btn-valider");
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const inputs = [title, category, inputFile];
-    const inputsFilled = inputs.every((input) => input.value.trim() !== "");
-    if (inputsFilled) {
+    // if(form.checkValidity()){
+    //   btnValidForm.classList.add("btnValid");
+    // }
+    if (inputFile.value !== "" && title.value !== "" && category.value !== "") {
       btnValidForm.classList.add("btnValid");
+
       // INDEX: 5-Ajout travaux avec la méthode POST
-      let formData = new FormData();
-      formData.appendChild("title", title.value);
-      formData.appendChild("category", category.value);
-      formData.appendChild("image", inputFile.files[0]);
+      const formData = new FormData();
+      formData.append("title", title.value);
+      formData.append("category", category.value);
+      formData.append("image", inputFile.files[0]);
       // const formData = {
       //   title: title.value,
-      //   categoryId: categorie.value,
+      //   categoryId: category.value,
       //   imageUrl: previewImage.src,
       //   category: {
-      //     id: categorie.value,
-      //     name: categorie.options[categorie.selectedIndex].textContent,
+      //     id: category.value,
+      //     name: category.options[category.selectedIndex].textContent,
       //   },
       // };
       fetch("http://localhost:5678/api/works", {
@@ -267,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("impossible d'ajouter le nouveau projet");
           }
           if (response.ok) {
-            alert("Projet ajouté avec succés");
+            alert("Projet est ajouté avec succès");
             console.log(response);
             return response.json();
           }
@@ -276,13 +280,13 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log(data);
           galerieWorks(workData, ".gallery");
           galerieWorks(workData, ".supprime-photo");
+          form.reset(); // Réinitialiser les champs du formulaire
         })
         .catch((error) =>
           console.error("Erreur lors de l'ajout des travaux", error)
         );
-      // Vider tous les inputs aprés validation du formulaire
-      inputs.forEach((input) => (input.value = ""));
     } else {
+      alert("Veuillez remplir tous les champs du formulaire.");
       btnValidForm.classList.remove("btnValid");
     }
   });

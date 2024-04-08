@@ -286,7 +286,9 @@ nav li a:hover {
 }
 
 .gallery img {
+  object-fit: cover;
   width: 100%;
+  height: 555px;
 }
 
 .gallery span {
@@ -401,7 +403,9 @@ footer {
   padding-bottom: 50px;
 }
 .supprime-photo img {
+  object-fit: cover;
   width: 100%;
+  height: 100%;
 }
 
 .supprime-photo figcation {
@@ -475,12 +479,18 @@ input[type="file"] {
   background-color: #1d6154;
 }
 /*style du modale2*/
+
 #btn-valider {
   background-color: rgb(167, 167, 167);
 }
 /*la classList qui sera injecter par js pour valider le formulaire*/
 .btnValid {
   background-color: #1d6154 !important;
+}
+#modale2 .erreur {
+  /*pour le message d'erreur*/
+  font-size: 1rem;
+  text-shadow: 3px 3px 5px rgba(202, 5, 5, 0.885);
 }
 .iconModal2 {
   display: flex;
@@ -507,7 +517,6 @@ input[type="file"] {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  height: 100%;
   object-fit: cover;
   object-position: center;
   z-index: 100;
@@ -566,4 +575,14 @@ select {
   bottom: 58px;
   font-size: 0.8rem;
   pointer-events: none;
+}
+@media (max-width: 1020px) {
+  .gallery img {
+    height: 450px;
+  }
+}
+@media (max-width: 980px) {
+  .gallery img {
+    height: 350px;
+  }
 }

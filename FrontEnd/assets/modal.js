@@ -66,3 +66,4 @@ window.onload = () => {
     });
   }
 };
+//Pour la suppression et ajout des travaux c'est dans le fichier index.js

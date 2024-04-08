@@ -21,9 +21,8 @@ async function workFetch() {
   //appeller la fonction pour afficher tous les travaux dans notre modale Dellete
   galerieWorks(workData, ".supprime-photo");
   // Appeller la fonction de supression des travaux
-  Dellete();
+  DeleteWork();
 }
-workFetch();
 
 /*****************************************************************
 //       la fonction pour afficher les traveaux de Sophie Bluel
@@ -93,7 +92,7 @@ function categorieFilter(categories, works) {
     };
   });
 }
-
+workFetch();
 /*************************************************************
  //      Créer la bar edition ,l'icon et mot modifier 
 /********************************************************* */
@@ -132,13 +131,13 @@ document.addEventListener("DOMContentLoaded", function () {
 //          Suppression des travaux
 /************************************************* */
 
-function Dellete() {
+function DeleteWork() {
   const Poubelles = document.querySelectorAll(".supprime-photo .fa-trash-can");
   Poubelles.forEach((poubelle) => {
     poubelle.addEventListener("click", () => {
       const id = poubelle.id;
       console.log(id);
-      let token = sessionStorage.getItem("token");
+      let token = sessionStorage.getItem("token"); //ou const
       const init = {
         method: "DELETE",
         headers: {
@@ -146,18 +145,18 @@ function Dellete() {
           authorization: `Bearer ${token}`,
         },
       };
-
+      // Envoie une requête DELETE pour supprimer le travail avec l'ID spécifié
       fetch("http://localhost:5678/api/works/" + id, init)
         .then((response) => {
           if (!response.ok) {
             console.log("impossible de supprimer !!");
           }
-          return response.json();
-        })
-        .then((data) => {
-          alert("Projet est supprimé avec succès");
-          console.log(data);
-          galerieWorks(workData, ".supprime-photo");
+          if (response.ok) {
+            alert("Le projet est été supprimé avec succès"); // Actualise la galerie de travaux
+            galerieWorks(workData, ".supprime-photo");
+            galerieWorks(workData, ".gallery");
+          }
+          // return response.json();n'est nécessaire puisque c'est vide ??? ni aussi d'un deuxieume then c'est ça ?
         })
         .catch((error) => {
           console.log(error);
@@ -177,16 +176,17 @@ document.addEventListener("DOMContentLoaded", () => {
   //  INDEX:1- Afficher l'image selectionnée de notre pc */
   //  Récupérer tous les éléments qui :
   //           seront utilisés dans l'affichage de l'image (input file)
-  const previewImage = document.querySelector(".photo-file img");
+
   const inputFile = document.getElementById("avatar");
   const labelFile = document.querySelector(".photoAjouter");
   const iconFile = document.querySelector(".fa-image");
   const pFile = document.querySelector(".photo-size");
   const contenuPhoto = document.querySelector(".photo-file");
-  //         seront utiliser pour le formulaire
+  //         seront utiliser dans le formulaire
   const form = document.querySelector("#modale2 form");
   const title = document.getElementById("titre");
   const category = document.getElementById("categorie");
+  const errorMessage = document.querySelector(".erreur");
 
   const btnValidForm = document.getElementById("btn-valider");
 
@@ -203,6 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         contenuPhoto.appendChild(img);
       };
       reader.readAsDataURL(image);
+
       labelFile.style.opacity = "0";
       iconFile.style.opacity = "0";
       pFile.style.opacity = "0";
@@ -221,7 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         const select = document.querySelector("#modale2 #categorie ");
-        select.innerHTML = ""; //mentor mettre ou pas?
         data.forEach((dataItem) => {
           const option = document.createElement("option");
           option.setAttribute("value", dataItem.id);
@@ -236,58 +236,53 @@ document.addEventListener("DOMContentLoaded", () => {
   chargerCategories();
 
   // // INDEX: 4- Verification du formulaire
+  form.addEventListener("input", function () {
+    if (title.value !== "" && category.value !== "" && inputFile.value !== "") {
+      btnValidForm.disabled = false;
+      btnValidForm.classList.add("btnValid");
+      errorMessage.textContent = "";
+    } else {
+      errorMessage.textContent =
+        "Veuillez remplir tous les champs du formulaire.";
+      btnValidForm.classList.remove("btnValid");
+      btnValidForm.disabled = true;
+    }
+  });
+
+  // INDEX: 5-Ajout travaux avec la méthode POST
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    // if(form.checkValidity()){
-    //   btnValidForm.classList.add("btnValid");
-    // }
-    if (inputFile.value !== "" && title.value !== "" && category.value !== "") {
-      btnValidForm.classList.add("btnValid");
 
-      // INDEX: 5-Ajout travaux avec la méthode POST
-      const formData = new FormData();
-      formData.append("title", title.value);
-      formData.append("category", category.value);
-      formData.append("image", inputFile.files[0]);
-      // const formData = {
-      //   title: title.value,
-      //   categoryId: category.value,
-      //   imageUrl: previewImage.src,
-      //   category: {
-      //     id: category.value,
-      //     name: category.options[category.selectedIndex].textContent,
-      //   },
-      // };
-      fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-        },
-        body: formData,
-        //  JSON.stringify(formData),
+    const formData = new FormData();
+    formData.append("title", title.value);
+    formData.append("category", category.value);
+    formData.append("image", inputFile.files[0]);
+
+    fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          alert("impossible d'ajouter le nouveau projet");
+        }
+        if (response.ok) {
+          alert("Le projet est ajouté avec succès");
+          console.log(response);
+          return response.json();
+        }
       })
-        .then((response) => {
-          if (!response.ok) {
-            alert("impossible d'ajouter le nouveau projet");
-          }
-          if (response.ok) {
-            alert("Projet est ajouté avec succès");
-            console.log(response);
-            return response.json();
-          }
-        })
-        .then((data) => {
-          console.log(data);
-          galerieWorks(workData, ".gallery");
-          galerieWorks(workData, ".supprime-photo");
-          form.reset(); // Réinitialiser les champs du formulaire
-        })
-        .catch((error) =>
-          console.error("Erreur lors de l'ajout des travaux", error)
-        );
-    } else {
-      alert("Veuillez remplir tous les champs du formulaire.");
-      btnValidForm.classList.remove("btnValid");
-    }
+      .then((data) => {
+        console.log(data);
+        galerieWorks(workData, ".gallery");
+        galerieWorks(workData, ".supprime-photo");
+        form.reset(); // Réinitialiser les champs du formulaire
+      })
+      .catch((error) =>
+        console.error("Erreur lors de l'ajout des travaux", error)
+      );
   });
 });

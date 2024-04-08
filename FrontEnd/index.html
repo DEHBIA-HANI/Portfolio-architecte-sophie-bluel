@@ -124,10 +124,10 @@
                 <input type="file" id="avatar" name="imageUrl" accept="image/png, image/jpeg" required>
 
                 <p class="photo-size">jpg,png:4mo max</p>
-
               </div>
 
             </div>
+
             <div class="modale-nouvelle-categorie">
               <label for="titre">Titre</label>
               <input type="text" name="title" id="titre" required>
@@ -142,10 +142,9 @@
             </div>
           </div>
           <div>
-            <button id="btn-valider" class="modale-button">Valider</button>
+            <button id="btn-valider" class="modale-button" disabled>Valider</button>
           </div>
-
-
+          <span class="erreur" style="color: red;"></span> <!-- Message d'erreur -->
         </form>
       </div>
 

@@ -23,7 +23,7 @@ async function workFetch() {
   // Appeller la fonction de supression des travaux
   DeleteWork();
 }
-
+workFetch();
 /*****************************************************************
 //       la fonction pour afficher les traveaux de Sophie Bluel
 /*************************************************************** */
@@ -33,10 +33,10 @@ function galerieWorks(works, selector) {
 
   works.forEach((work) => {
     const figure = document.createElement("figure");
-
     const img = document.createElement("img");
     const span = document.createElement("span");
     const poubelle = document.createElement("i");
+
     poubelle.classList.add("fa-solid", "fa-trash-can");
     poubelle.id = work.id;
     img.src = work.imageUrl;
@@ -45,14 +45,16 @@ function galerieWorks(works, selector) {
     figure.appendChild(span);
     figure.appendChild(img);
 
-    const figcaption = document.createElement("figcation");
+    const figcaption = document.createElement("figcaption");
     figcaption.textContent = work.title;
     figure.appendChild(figcaption);
     galerie.appendChild(figure);
   });
 }
+
 /***************************************************************
  //           Affichage les boutons par filtre 
+
 /**************************************************************** */
 function fetchCategories(works) {
   fetch("http://localhost:5678/api/categories")
@@ -92,7 +94,6 @@ function categorieFilter(categories, works) {
     };
   });
 }
-workFetch();
 /*************************************************************
  //      Créer la bar edition ,l'icon et mot modifier 
 /********************************************************* */
@@ -156,7 +157,6 @@ function DeleteWork() {
             galerieWorks(workData, ".supprime-photo");
             galerieWorks(workData, ".gallery");
           }
-          // return response.json();n'est nécessaire puisque c'est vide ??? ni aussi d'un deuxieume then c'est ça ?
         })
         .catch((error) => {
           console.log(error);
@@ -176,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
   //  INDEX:1- Afficher l'image selectionnée de notre pc */
   //  Récupérer tous les éléments qui :
   //           seront utilisés dans l'affichage de l'image (input file)
-
   const inputFile = document.getElementById("avatar");
   const labelFile = document.querySelector(".photoAjouter");
   const iconFile = document.querySelector(".fa-image");

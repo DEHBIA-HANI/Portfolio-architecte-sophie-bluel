@@ -53,7 +53,7 @@ window.onload = () => {
       modaleGlobale.addEventListener("click", function () {
         closeModal();
       });
-      //On évite la propagationdu clic d'un enfant à son parent
+      //On évite la propagation du clic d'un enfant à son parent
       for (let i = 0; i < modaleGlobale.children.length; i++) {
         modaleGlobale.children[i].addEventListener("click", function (e) {
           e.stopPropagation();

@@ -138,7 +138,7 @@ function DeleteWork() {
     poubelle.addEventListener("click", () => {
       const id = poubelle.id;
       console.log(id);
-      let token = sessionStorage.getItem("token"); //ou const
+      let token = sessionStorage.getItem("token");
       const init = {
         method: "DELETE",
         headers: {

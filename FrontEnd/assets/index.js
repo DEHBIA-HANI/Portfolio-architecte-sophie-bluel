@@ -131,7 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
 /****************************************************/
 //          Suppression des travaux
 /************************************************* */
-
+const modaleGlobale = document.querySelector(".modale");
+const closeModal = function () {
+  modaleGlobale.style.display = "none";
+};
 function DeleteWork() {
   const Poubelles = document.querySelectorAll(".supprime-photo .fa-trash-can");
   Poubelles.forEach((poubelle) => {
@@ -156,6 +159,8 @@ function DeleteWork() {
             alert("Le projet est été supprimé avec succès"); // Actualise la galerie de travaux
             galerieWorks(workData, ".supprime-photo");
             galerieWorks(workData, ".gallery");
+            workFetch();
+            closeModal();
           }
         })
         .catch((error) => {
@@ -172,6 +177,7 @@ function DeleteWork() {
 //           4- Verification du formulaire
 //           5- Faire un POST
 /**************************************************************** */
+
 document.addEventListener("DOMContentLoaded", () => {
   //  INDEX:1- Afficher l'image selectionnée de notre pc */
   //  Récupérer tous les éléments qui :
@@ -271,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (response.ok) {
           alert("Le projet est ajouté avec succès");
           console.log(response);
+          workFetch();
           return response.json();
         }
       })
@@ -278,7 +285,18 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(data);
         galerieWorks(workData, ".gallery");
         galerieWorks(workData, ".supprime-photo");
-        form.reset(); // Réinitialiser les champs du formulaire
+
+        form.reset(); // Réinitialiser les champs du formulaire.
+
+        const myPhoto = contenuPhoto.querySelector("img");
+        console.log(myPhoto);
+        myPhoto.remove();
+        labelFile.style.opacity = "100";
+        iconFile.style.opacity = "100";
+        pFile.style.opacity = "100";
+        btnValidForm.classList.remove("btnValid");
+        btnValidForm.disabled = true;
+        closeModal();
       })
       .catch((error) =>
         console.error("Erreur lors de l'ajout des travaux", error)

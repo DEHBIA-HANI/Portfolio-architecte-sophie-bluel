@@ -226,6 +226,7 @@ nav li a:hover {
   display: flex;
   align-items: center;
 }
+
 #introduction figure {
   flex: 1;
 }
@@ -584,5 +585,53 @@ select {
 @media (max-width: 980px) {
   .gallery img {
     height: 350px;
+  }
+}
+@media (max-width: 375px) {
+  h1 {
+    font-size: 10px;
+  }
+  h1 > span {
+    font-size: 8px;
+  }
+  nav li {
+    padding: 0 7px;
+    font-size: 0.9rem;
+  }
+  ul img {
+    height: 20px;
+  }
+  #introduction {
+    flex-direction: column;
+  }
+  section {
+    margin: 20px;
+  }
+  #introduction h2 {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 0.5rem;
+  }
+  #introduction p {
+    font-size: 0.8rem;
+  }
+  #contact {
+    width: 90%;
+  }
+  #contact p {
+    font-size: 0.8rem;
+  }
+}
+@media (max-width: 289px) {
+  h1 {
+    font-size: 8px;
+  }
+
+  nav li {
+    padding: 0 4px;
+    font-size: 0.75rem;
+  }
+  ul img {
+    height: 15px;
   }
 }
